@@ -1,4 +1,4 @@
-import { Combobox as FluentCombobox, Label, makeStyles, Option, OptionOnSelectData, SelectionEvents, shorthands, tokens, useId } from '@fluentui/react-components'
+import { Combobox as FluentCombobox, Label, makeStyles, OptionOnSelectData, SelectionEvents, shorthands, tokens, useComboboxFilter, useId } from '@fluentui/react-components'
 import React, { useEffect } from 'react'
 import { Dependent, useSimpleOptions } from '../hooks/useSimpleOptions'
 import { useComponentFrameworkContext } from '../services/ComponentFrameworkContext'
@@ -67,8 +67,11 @@ const styles = makeStyles({
  * @param {IDropdownProps} props - The props for the component.
  * @returns {React.ReactElement} - A dropdown element with the passed id, options, selected option, and disabled state.
  */
-export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, selected, onSelected, dependencies }: IDropdownProps) => {
+export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, selected, onSelected, dependencies }: IDropdownProps): React.ReactElement => {
     const ctx = useComponentFrameworkContext()
+    const dropdownLabel = (ctx.Context.parameters as any)[`${ id }Label`]?.raw
+    const dropdownPlaceholder = (ctx.Context.parameters as any)[`${ id }Placeholder`]?.raw
+
     const [options] = useSimpleOptions(field, dependencies)
     const [value, setValue] = React.useState<string | undefined>(selected)
     const [selectedOptions, setSelectedOptions] = React.useState<string[]>(selected ? [selected] : [])
@@ -93,12 +96,16 @@ export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, sele
         setValue(data.optionValue)
     }
 
-    const dropdownLabel = (ctx.Context.parameters as any)[`${ id }Label`]?.raw
-    const dropdownPlaceholder = (ctx.Context.parameters as any)[`${ id }Placeholder`]?.raw
+    const items = useComboboxFilter(query, options, {
+        noOptionsMessage: 'No match for your search',
+        filter: (option, query) => option.toLowerCase().includes(query.toLowerCase()),
+        optionToText: (option) => option,
+        optionToReactKey: (option) => option
+    })
 
     return (
         <div id={ _id } className={ classes.root }>
-            { isDisabled && <Paragraph id={ id } text={ selected || '' } textAlign={ 'inherit' }/> }
+            { isDisabled && <Paragraph id={ id } text={ selected || 'No content' } textAlign={ 'inherit' }/> }
             { !isDisabled && dropdownLabel && <Label htmlFor={ _id }>{ dropdownLabel }</Label> }
             { !isDisabled &&
                 <FluentCombobox id={ id }
@@ -110,14 +117,10 @@ export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, sele
                                 disabled={ isDisabled }
                                 listbox={ { className: classes.listbox } }
                                 clearable={ true }
-                                autoComplete='off'>
-                    {
-                        options.map((x) => (
-                            <Option key={ x } value={ x }>
-                                { x }
-                            </Option>
-                        ))
-                    }
+                                autoComplete="off"
+                                onChange={ (ev) => setQuery(ev.target.value) }
+                                value={ selected || query }>
+                    { items }
                 </FluentCombobox>
             }
         </div>
