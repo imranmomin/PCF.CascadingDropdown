@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+    <control namespace="PCF" constructor="CascadingDropdown" version="1.0.0" display-name-key="cascading_dropdown_display_key" description-key="cascading_dropdown_desc_key" control-type="virtual">
+        <external-service-usage enabled="false"/>
+        <property name="LookupField" display-name-key="lookup_field_display_key" description-key="lookup_field_desc_key" of-type="Lookup.Simple" usage="bound" required="true"/>
+        <property name="LookupFieldPrimaryField" display-name-key="lookup_field_primary_field_display_key" description-key="lookup_field_primary_field_desc_key" of-type="SingleLine.Text" usage="input" required="true"/>
+        <property name="LookupFieldIdentifierField" display-name-key="lookup_field_identifier_display_key" description-key="lookup_field_identifier_desc_key" of-type="SingleLine.Text" usage="input" required="true"/>
+
+        <!-- Dropdown One -->
+        <property name="DropdownOneField" display-name-key="dropdown_one_field_display_key" description-key="dropdown_one_field_desc_key" of-type="SingleLine.Text" usage="input" required="true"/>
+        <property name="DropdownOnePlaceholder" display-name-key="dropdown_one_placeholder_display_key" description-key="dropdown_one_placeholder_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
+
+        <!-- Dropdown Two -->
+        <property name="DropdownTwoField" display-name-key="dropdown_two_field_display_key" description-key="dropdown_two_field_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
+        <property name="DropdownTwoLabel" display-name-key="dropdown_two_label_display_key" description-key="dropdown_two_label_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
+        <property name="DropdownTwoPlaceholder" display-name-key="dropdown_two_placeholder_display_key" description-key="dropdown_two_placeholder_desc_key" of-type="SingleLine.Text" usage="input"/>
+
+        <!-- Para -->
+        <property name="ParagraphField" display-name-key="para_field_display_key" description-key="para_field_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
+
+        <resources>
+            <code path="index.ts" order="1"/>
+            <platform-library name="React" version="16.8.6"/>
+            <platform-library name="Fluent" version="8.29.0"/>
+            <resx path="resources/English.1033.resx" version="1.0.0"/>
+        </resources>
+
+        <feature-usage>
+            <uses-feature name="WebAPI" required="true"/>
+        </feature-usage>
+    </control>
+</manifest>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml>
+    <Entities/>
+    <Roles/>
+    <Workflows/>
+    <FieldSecurityProfiles/>
+    <Templates/>
+    <EntityMaps/>
+    <EntityRelationships/>
+    <OrganizationSettings/>
+    <optionsets/>s
+    <CustomControls/>
+    <SolutionPluginAssemblies/>
+    <EntityDataProviders/>
+    <Languages>
+        <Language>1033</Language>
+    </Languages>
+</ImportExportXml>
