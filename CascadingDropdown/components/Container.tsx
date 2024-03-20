@@ -38,7 +38,7 @@ export const Container: React.FC<IAppProps> = (props: React.PropsWithChildren<IA
 
     return (
         <ComponentFrameworkContextProvider context={ context }>
-            <FluentProvider theme={ theme }>
+            <FluentProvider theme={ theme } style={ { width: '100%' } }>
                 <div className={ classes.root }>
                     { props.children }
                 </div>

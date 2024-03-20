@@ -1,4 +1,4 @@
-import { Dropdown as FluentDropdown, Label, makeStyles, Option, OptionOnSelectData, SelectionEvents, shorthands, tokens, useId } from '@fluentui/react-components'
+import { Combobox as FluentCombobox, Label, makeStyles, Option, OptionOnSelectData, SelectionEvents, shorthands, tokens, useId } from '@fluentui/react-components'
 import React, { useEffect } from 'react'
 import { Dependent, useSimpleOptions } from '../hooks/useSimpleOptions'
 import { useComponentFrameworkContext } from '../services/ComponentFrameworkContext'
@@ -28,31 +28,37 @@ const styles = makeStyles({
     root: {
         display: 'grid',
         gridTemplateRows: 'repeat(1fr)',
+        justifyItems: 'start'
+    },
+    combobox: {
+        cursor: 'pointer',
+        minWidth: '334px',
+        width: '100%',
+        height: '100%',
+        display: 'grid',
+        gridTemplateRows: 'repeat(1fr)',
         justifyItems: 'start',
-        '> .fui-Dropdown': {
-            minWidth: '334px',
+        backgroundColor: tokens.colorNeutralBackground3,
+        ...shorthands.gap(tokens.spacingVerticalM),
+        ...shorthands.border('0px'),
+
+        '> input': {
+            cursor: 'pointer',
             width: '100%',
-            height: '100%',
-            display: 'grid',
-            gridTemplateRows: 'repeat(1fr)',
-            justifyItems: 'start',
-            backgroundColor: tokens.colorNeutralBackground3,
-            ...shorthands.gap(tokens.spacingVerticalM),
-            ...shorthands.border('0px'),
+        },
 
-            '> button': {
+        '> span.fui-Combobox__expandIcon': {
+            visibility: 'hidden',
+        },
 
-                '> .fui-Dropdown__expandIcon': {
-                    visibility: 'hidden',
-                },
-
-                ':hover': {
-                    '> .fui-Dropdown__expandIcon': {
-                        visibility: 'visible',
-                    }
-                }
+        ':hover': {
+            '> span.fui-Combobox__expandIcon': {
+                visibility: 'visible',
             }
         }
+    },
+    listbox: {
+        maxHeight: '450px',
     }
 })
 
@@ -66,6 +72,8 @@ export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, sele
     const [options] = useSimpleOptions(field, dependencies)
     const [value, setValue] = React.useState<string | undefined>(selected)
     const [selectedOptions, setSelectedOptions] = React.useState<string[]>(selected ? [selected] : [])
+    const [query, setQuery] = React.useState<string>('')
+
     const _id = useId(id)
     const classes = styles()
 
@@ -93,12 +101,16 @@ export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, sele
             { isDisabled && <Paragraph id={ id } text={ selected || '' } textAlign={ 'inherit' }/> }
             { !isDisabled && dropdownLabel && <Label htmlFor={ _id }>{ dropdownLabel }</Label> }
             { !isDisabled &&
-                <FluentDropdown id={ id }
+                <FluentCombobox id={ id }
+                                className={ classes.combobox }
                                 placeholder={ dropdownPlaceholder }
                                 onOptionSelect={ onChange }
                                 defaultValue={ value }
                                 selectedOptions={ selectedOptions }
-                                disabled={ isDisabled }>
+                                disabled={ isDisabled }
+                                listbox={ { className: classes.listbox } }
+                                clearable={ true }
+                                autoComplete='off'>
                     {
                         options.map((x) => (
                             <Option key={ x } value={ x }>
@@ -106,7 +118,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, sele
                             </Option>
                         ))
                     }
-                </FluentDropdown>
+                </FluentCombobox>
             }
         </div>
     )

@@ -44,7 +44,8 @@ export class ComponentFrameworkContextService {
             return this._data
         }
 
-        const records = await this._context.webAPI.retrieveMultipleRecords(this._entityType, '?$top=1000')
+        const total = this._context.parameters.NoOfRecords.raw || 1000;
+        const records = await this._context.webAPI.retrieveMultipleRecords(this._entityType, `?$top=${total}&$filter=statecode eq 0`)
         this._data = records.entities
         return this._data
     }

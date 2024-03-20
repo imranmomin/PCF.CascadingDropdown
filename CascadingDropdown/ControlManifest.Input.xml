@@ -18,6 +18,9 @@
         <!-- Para -->
         <property name="ParagraphField" display-name-key="para_field_display_key" description-key="para_field_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
 
+        <!-- No of Records -->
+        <property name="NoOfRecords" display-name-key="no_of_records_display_key" description-key="no_of_records_desc_key" of-type="Whole.None" usage="input" required="false" default-value="1000"/>
+
         <resources>
             <code path="index.ts" order="1"/>
             <platform-library name="React" version="16.8.6"/>
