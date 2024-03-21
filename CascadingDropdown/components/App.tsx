@@ -15,27 +15,44 @@ import { Paragraph } from './Paragraph'
  */
 export const App = () => {
     const ctx = useComponentFrameworkContext()
-    const { isDisabled, lookupValue, lookupIdentifierField, dropdownOneField, dropdownTwoField, paragraphField } = useParameters()
+    const { isDisabled, lookupValue, lookupIdentifierField, dropdownOneField, dropdownTwoField, dropdownThreeField, paragraphField } = useParameters()
     const [data, isLoading, error] = useData()
-    const [dropdownOne, setDropdownOne] = useState<string | undefined>(undefined)
-    const [dropdownTwo, setDropdownTwo] = useState<string | undefined>(undefined)
-    const [dropdownTwoDependencies, setDropdownTwoDependencies] = useState<Dependent[]>([])
+    const [dropdowns, setDropdowns] = useState<Array<string | undefined>>([undefined, undefined, undefined])
+    const [dependencies, setDependencies] = useState<Array<Dependent[]>>([[], []])
     const [para, setPara] = useState<string | undefined>(undefined)
+    const dropdownFields = [dropdownOneField, dropdownTwoField, dropdownThreeField]
 
     /**
      * Function to handle the selected option of the dropdowns.
      * @param {string | undefined} selectedOption - The selected option.
      * @param {string | undefined} dropdown - The dropdown that the selected option belongs to.
      */
-    const onSelected = (selectedOption?: string | undefined, dropdown?: string) => {
-        if (dropdown === 'one') {
-            setDropdownOne(selectedOption)
-            if (selectedOption && dropdownTwoField && dropdownOneField) {
-                setDropdownTwoDependencies([{ field: dropdownOneField, value: selectedOption }])
-            }
-            setDropdownTwo(undefined)
-        } else if (dropdown === 'two') {
-            setDropdownTwo(selectedOption)
+    const onSelected = (dropdown: string, selectedOption?: string | undefined) => {
+        const index = dropdownFields.indexOf(dropdown)
+        if (index !== -1) {
+            setDropdowns(prevDropdowns => {
+                const newDropdowns = [...prevDropdowns]
+                newDropdowns[index] = selectedOption
+                return newDropdowns
+            })
+            setDependencies(prevDependencies => {
+                const newDependencies = [...prevDependencies]
+                if (newDependencies[index]) {
+                    newDependencies[index].length = 0
+                }
+
+                if (selectedOption && index < dropdownFields.length - 1) {
+                    newDependencies[index] = [{ field: dropdown, value: selectedOption } as Dependent]
+
+                    const fields = dropdownFields.slice(0, index)
+                    const values = dropdowns.slice(0, index)
+                    fields.forEach((field, i) => {
+                        newDependencies[index].push({ field, value: values[i] } as Dependent)
+                    })
+                }
+
+                return newDependencies
+            })
         }
     }
 
@@ -48,23 +65,23 @@ export const App = () => {
         const item = data.find((item) => item[lookupIdentifierField] === id)
 
         if (item) {
-            if (dropdownOneField) {
-                setDropdownOne(item[dropdownOneField])
-            }
-            if (dropdownTwoField) {
-                setDropdownTwo(item[dropdownTwoField])
-            }
+            dropdownFields.forEach((field, index) => {
+                if (field) {
+                    setDropdowns(prevDropdowns => {
+                        const newDropdowns = [...prevDropdowns]
+                        newDropdowns[index] = item[field]
+                        return newDropdowns
+                    })
+                }
+            })
         }
     }, [data])
 
     useEffect(() => {
-        let items = data
-        if (dropdownOneField) {
-            items = items.filter((item) => item[dropdownOneField] === dropdownOne)
-        }
-        if (dropdownTwoField) {
-            items = items.filter((item) => item[dropdownTwoField] === dropdownTwo)
-        }
+        const items = data.filter(item => {
+            return dropdownFields.every((field, index) => !field || item[field] === dropdowns[index])
+        })
+
         if (items.length > 0) {
             const item = items[0]
             if (paragraphField) {
@@ -76,16 +93,17 @@ export const App = () => {
         } else {
             setPara(undefined)
         }
-    }, [dropdownOne, dropdownTwo])
+    }, dropdowns)
 
     return (
         <>
             { isLoading && <div>Loading...</div> }
-            { error && <MessageBar intent={ 'error' }> { error } </MessageBar> }
+            { error && <MessageBar intent={ 'error' }> { error.message } </MessageBar> }
             { !isLoading && !error &&
                 <>
-                    { dropdownOneField && <Dropdown key="DropdownOne" id="DropdownOne" field={ dropdownOneField } onSelected={ (selectedOption) => onSelected(selectedOption, 'one') } selected={ dropdownOne } isDisabled={ isDisabled }/> }
-                    { dropdownTwoField && dropdownOne && <Dropdown key={ `Dropdown-${ Date.now() }` } id="DropdownTwo" field={ dropdownTwoField } onSelected={ (selectedOption) => onSelected(selectedOption, 'two') } dependencies={ dropdownTwoDependencies } selected={ dropdownTwo } isDisabled={ isDisabled }/> }
+                    { dropdownFields[0] && <Dropdown key="DropdownOne" id="DropdownOne" field={ dropdownFields[0] } onSelected={ (selectedOption) => onSelected(dropdownFields[0]!, selectedOption) } selected={ dropdowns[0] } isDisabled={ isDisabled }/> }
+                    { dropdownFields[1] && dropdowns[0] && <Dropdown key="DropdownTwo" id="DropdownTwo" field={ dropdownFields[1] } onSelected={ (selectedOption) => onSelected(dropdownFields[1]!, selectedOption,) } dependencies={ dependencies[0] } selected={ dropdowns[1] } isDisabled={ isDisabled }/> }
+                    { dropdownFields[2] && dropdowns[1] && <Dropdown key="DropdownThree" id="DropdownThree" field={ dropdownFields[2] } onSelected={ (selectedOption) => onSelected(dropdownFields[2]!, selectedOption,) } dependencies={ dependencies[1] } selected={ dropdowns[2] } isDisabled={ isDisabled }/> }
                     { para && <Paragraph id="legal" text={ para }/> }
                 </>
             }
