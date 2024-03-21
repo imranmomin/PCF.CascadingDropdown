@@ -33,6 +33,11 @@ export const App = () => {
             setDropdowns(prevDropdowns => {
                 const newDropdowns = [...prevDropdowns]
                 newDropdowns[index] = selectedOption
+
+                if (index < dropdownFields.length - 1) {
+                    newDropdowns[index + 1] = undefined
+                }
+
                 return newDropdowns
             })
             setDependencies(prevDependencies => {
@@ -102,8 +107,8 @@ export const App = () => {
             { !isLoading && !error &&
                 <>
                     { dropdownFields[0] && <Dropdown key="DropdownOne" id="DropdownOne" field={ dropdownFields[0] } onSelected={ (selectedOption) => onSelected(dropdownFields[0]!, selectedOption) } selected={ dropdowns[0] } isDisabled={ isDisabled }/> }
-                    { dropdownFields[1] && dropdowns[0] && <Dropdown key="DropdownTwo" id="DropdownTwo" field={ dropdownFields[1] } onSelected={ (selectedOption) => onSelected(dropdownFields[1]!, selectedOption,) } dependencies={ dependencies[0] } selected={ dropdowns[1] } isDisabled={ isDisabled }/> }
-                    { dropdownFields[2] && dropdowns[1] && <Dropdown key="DropdownThree" id="DropdownThree" field={ dropdownFields[2] } onSelected={ (selectedOption) => onSelected(dropdownFields[2]!, selectedOption,) } dependencies={ dependencies[1] } selected={ dropdowns[2] } isDisabled={ isDisabled }/> }
+                    { dropdownFields[1] && dropdowns[0] && <Dropdown key={ dropdowns[0] } id="DropdownTwo" field={ dropdownFields[1] } onSelected={ (selectedOption) => onSelected(dropdownFields[1]!, selectedOption,) } dependencies={ dependencies[0] } selected={ dropdowns[1] } isDisabled={ isDisabled }/> }
+                    { dropdownFields[2] && dropdowns[1] && <Dropdown key={ dropdowns[1] } id="DropdownThree" field={ dropdownFields[2] } onSelected={ (selectedOption) => onSelected(dropdownFields[2]!, selectedOption,) } dependencies={ dependencies[1] } selected={ dropdowns[2] } isDisabled={ isDisabled }/> }
                     { para && <Paragraph id="legal" text={ para }/> }
                 </>
             }
