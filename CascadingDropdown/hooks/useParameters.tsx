@@ -8,7 +8,7 @@ import { useComponentFrameworkContext } from '../services/ComponentFrameworkCont
 export const useParameters = () => {
     const { Context: { mode, parameters } } = useComponentFrameworkContext()
     const isDisabled = mode.isControlDisabled
-    const lookupValue = parameters.LookupField.raw?.[0]
+    const lookupValue = parameters.LookupField?.raw?.[0]
     const { LookupFieldIdentifierField, DropdownOneField, DropdownTwoField, ParagraphField } = parameters
 
     return {

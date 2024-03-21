@@ -177,4 +177,10 @@
     <data name="para_field_desc_key" xml:space="preserve">
         <value>The column of the entity, which is used to populate the paragraph section.</value>
     </data>
+    <data name="no_of_records_display_key" xml:space="preserve">
+        <value>No of Records</value>
+    </data>
+    <data name="no_of_records_desc_key" xml:space="preserve">
+        <value>This field is used to set the number of records to be fetched from the entity.</value>
+    </data>
 </root>

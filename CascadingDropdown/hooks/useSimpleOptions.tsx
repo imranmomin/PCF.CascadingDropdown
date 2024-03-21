@@ -24,6 +24,7 @@ export const useSimpleOptions = (field: string, dependencies: Dependent[] | unde
             .filter(item => !dependencies || dependencies.every(dependency => item[dependency.field] === dependency.value))
             .map(item => item[field])
             .filter((value, index, self) => self.indexOf(value) === index)
+            .sort()
 
         setOptions(list)
     }, [data, dependencies])
