@@ -8,12 +8,17 @@
 
         <!-- Dropdown One -->
         <property name="DropdownOneField" display-name-key="dropdown_one_field_display_key" description-key="dropdown_one_field_desc_key" of-type="SingleLine.Text" usage="input" required="true"/>
-        <property name="DropdownOnePlaceholder" display-name-key="dropdown_one_placeholder_display_key" description-key="dropdown_one_placeholder_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
+        <property name="DropdownOnePlaceholder" display-name-key="dropdown_one_placeholder_display_key" description-key="dropdown_one_placeholder_desc_key" of-type="SingleLine.Text" usage="input" required="false" default-value="Select"/>
 
         <!-- Dropdown Two -->
         <property name="DropdownTwoField" display-name-key="dropdown_two_field_display_key" description-key="dropdown_two_field_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
         <property name="DropdownTwoLabel" display-name-key="dropdown_two_label_display_key" description-key="dropdown_two_label_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
-        <property name="DropdownTwoPlaceholder" display-name-key="dropdown_two_placeholder_display_key" description-key="dropdown_two_placeholder_desc_key" of-type="SingleLine.Text" usage="input"/>
+        <property name="DropdownTwoPlaceholder" display-name-key="dropdown_two_placeholder_display_key" description-key="dropdown_two_placeholder_desc_key" of-type="SingleLine.Text" usage="input" default-value="Select"/>
+
+        <!-- Dropdown Three -->
+        <property name="DropdownThreeField" display-name-key="dropdown_three_field_display_key" description-key="dropdown_three_field_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
+        <property name="DropdownThreeLabel" display-name-key="dropdown_three_label_display_key" description-key="dropdown_three_label_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>
+        <property name="DropdownThreePlaceholder" display-name-key="dropdown_three_placeholder_display_key" description-key="dropdown_three_placeholder_desc_key" of-type="SingleLine.Text" usage="input" required="false" default-value="Select"/>
 
         <!-- Para -->
         <property name="ParagraphField" display-name-key="para_field_display_key" description-key="para_field_desc_key" of-type="SingleLine.Text" usage="input" required="false"/>

@@ -171,6 +171,25 @@
     <data name="dropdown_two_label_desc_key" xml:space="preserve">
         <value>This field is used to set the label for the dropdown.</value>
     </data>
+    <data name="dropdown_three_field_display_key" xml:space="preserve">
+        <value>Dropdown Three Field</value>
+    </data>
+    <data name="dropdown_three_field_desc_key" xml:space="preserve">
+        <value>The column of the entity, which is used to populate the dropdown.</value>
+    </data>
+    <data name="dropdown_three_placeholder_display_key" xml:space="preserve">
+        <value>Dropdown Three Placeholder</value>
+    </data>
+    <data name="dropdown_three_placeholder_desc_key" xml:space="preserve">
+        <value>This field is used to set the placeholder text for the dropdown.</value>
+    </data>
+    <data name="dropdown_three_label_display_key" xml:space="preserve">
+        <value>Dropdown Three Label</value>
+    </data>
+    <data name="dropdown_three_label_desc_key" xml:space="preserve">
+        <value>This field is used to set the label for the dropdown.</value>
+    </data>
+
     <data name="para_field_display_key" xml:space="preserve">
         <value>Paragraph Field</value>
     </data>
