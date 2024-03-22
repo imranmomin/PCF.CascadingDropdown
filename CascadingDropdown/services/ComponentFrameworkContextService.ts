@@ -27,7 +27,7 @@ export class ComponentFrameworkContextService {
 
         const item = this._data?.find((item) => item[lookupIdentifierField] === selectedOption)
         if (!item) {
-            console.warn('No item found', selectedOption)
+            console.warn('No item found. Will not notify the platform', selectedOption)
             return
         }
 
@@ -40,13 +40,25 @@ export class ComponentFrameworkContextService {
     }
 
     async getData (): Promise<ComponentFramework.WebApi.Entity[]> {
-        if (this._data && this._data.length > 0) {
+        if (this._data?.length) {
             return this._data
         }
 
-        const total = this._context.parameters.NoOfRecords.raw || 1000;
-        const records = await this._context.webAPI.retrieveMultipleRecords(this._entityType, `?$top=${total}&$filter=statecode eq 0`)
+        const { returnedtypecode, fetchxml } = await this.getLookupView()
+        const total = this._context.parameters.NoOfRecords.raw || 1000
+        const records = await this._context.webAPI.retrieveMultipleRecords(returnedtypecode, `?fetchXml=${ fetchxml }`, total)
         this._data = records.entities
         return this._data
+    }
+
+    async getLookupView (): Promise<ComponentFramework.WebApi.Entity> {
+        const viewId = (this._context.utils as any)['_customControlProperties']['descriptor']['Parameters']['DefaultViewId'] || undefined
+
+        if (!viewId) {
+            throw new Error('Unable to find the current default view')
+        }
+
+        return await this._context.webAPI
+            .retrieveRecord('savedquery', viewId, '?$select=returnedtypecode,fetchxml')
     }
 }

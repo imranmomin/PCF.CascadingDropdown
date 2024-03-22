@@ -98,7 +98,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({ id, field, isDisabled, sele
 
     const items = useComboboxFilter(query, options, {
         noOptionsMessage: 'No match for your search',
-        filter: (option, query) => option.toLowerCase().includes(query.toLowerCase()),
+        filter: (option, query) => option?.toLowerCase().includes(query.toLowerCase()),
         optionToText: (option) => option,
         optionToReactKey: (option) => option
     })

@@ -34,6 +34,7 @@
         </resources>
 
         <feature-usage>
+            <uses-feature name="Utility" required="true"/>
             <uses-feature name="WebAPI" required="true"/>
         </feature-usage>
     </control>

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Container, IAppProps } from './components/Container'
 import { App } from './components/App'
+import { Container, IAppProps } from './components/Container'
 import { IInputs, IOutputs } from './generated/ManifestTypes'
 
 export class CascadingDropdown implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -19,7 +19,7 @@ export class CascadingDropdown implements ComponentFramework.ReactControl<IInput
      */
     init (context: ComponentFramework.Context<IInputs>, notifyOutputChanged?: () => void, state?: ComponentFramework.Dictionary, container?: HTMLDivElement): void {
         this._notifyOutputChanged = notifyOutputChanged
-        context.mode.trackContainerResize(true);
+        context.mode.trackContainerResize(true)
     }
 
     /**
